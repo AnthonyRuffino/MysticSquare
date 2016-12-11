@@ -1,7 +1,7 @@
 "use strict";
 
 class GameDriver {
-  constructor(renderer, controlsBinding, tilesPerSide, log, alert, isDebug) {
+  constructor(renderer, controlsBinding, tilesPerSide, log, alert, isDebug, GameTileClass) {
 	  this.renderer = renderer;
 	  this.tilesPerSide = tilesPerSide;
 	  this.moves = 0;
@@ -16,7 +16,8 @@ class GameDriver {
 	  
 	  this.bindClick(controlsBinding);
 	  this.bindKeys(controlsBinding);
-	  this.textSizeBase = 35
+	  this.textSizeBase = 35;
+	  this.GameTileClass = GameTileClass;
   }
   
   
@@ -35,7 +36,7 @@ class GameDriver {
 		
 		var tileNumberForWinningBoard = 0;
 		
-		for(var i = 0; i < this.tilesPerSide; i++){
+		for(i = 0; i < this.tilesPerSide; i++){
 			for(var j = 0; j < this.tilesPerSide; j++){
 				
 				tileNumberForWinningBoard++;
@@ -52,14 +53,14 @@ class GameDriver {
 				var width = (this.renderer.boardSizePercentage*smallerDimention)/this.tilesPerSide;
 				
 				if(tileNumber !== this.numberOfSlots){
-					var gameTile = new GameTile(j, i, tileNumber, width, null, 'red', 'black', 'yellow', this.textSize);
+					var gameTile = new this.GameTileClass(j, i, tileNumber, width, null, "red", "black", "yellow", this.textSize);
 					this.gameTiles["#" + tileNumber] = gameTile;
 				}else{
 					this.columnOfMissingSlot = j;
 					this.rowOfMissingSlot = i;
 
-					this.debug('columnOfMissingSlot', this.columnOfMissingSlot);
-					this.debug('rowOfMissingSlot', this.rowOfMissingSlot);
+					this.debug("columnOfMissingSlot", this.columnOfMissingSlot);
+					this.debug("rowOfMissingSlot", this.rowOfMissingSlot);
 				}
 			}
 		}
@@ -67,23 +68,20 @@ class GameDriver {
   	
   	checkForWin(popUpForLoss){
 		
-		var positionNumber = 0;
-		var exit = false;
 		var win = true;
-
 		
 		for(var i = 1; i <= this.numberOfSlots; i++){
 			var tile = this.gameTiles["#" + i];
 			if(tile !== undefined && tile !== null){
 				var properNumber = ((this.tilesPerSide*tile.getGameY())+tile.getGameX())+1;
 				if(properNumber !== tile.getTileNumber()){
-					this.debug('order loss');
+					this.debug("order loss");
 					win = false;
 					break;
 				}
 			}else if(i !== this.numberOfSlots){
 				win = false;
-				this.debug('blank loss');
+				this.debug("blank loss");
 				break;
 			}
 		}
@@ -103,24 +101,24 @@ class GameDriver {
   			}
   		}
 
-  		renderer.ctx.save();
+  		this.renderer.ctx.save();
   		var textSize = 35;
-  		renderer.ctx.font =  (textSize*this.renderer.viewPortScaler) + 'pt Calibri';
-  		renderer.ctx.fillStyle = 'white';
-  		renderer.ctx.fillText('Mystic Square',0,(textSize*1)*this.renderer.viewPortScaler);
-  		renderer.ctx.font =  (20*this.renderer.viewPortScaler) + 'pt Calibri';
-  		renderer.ctx.fillText('(Press space to reset)',0,(textSize*2)*this.renderer.viewPortScaler);
-  		renderer.ctx.fillText('(+ will increase Square count)',0,(textSize*3)*this.renderer.viewPortScaler);
-  		renderer.ctx.fillText('(- will decrease Square count)',0,(textSize*4)*this.renderer.viewPortScaler);
-  		renderer.ctx.fillText('(q will check for win)',0,(textSize*5)*this.renderer.viewPortScaler);
-  		renderer.ctx.fillText('(w will set up a wining board)',0,(textSize*6)*this.renderer.viewPortScaler);
-  		renderer.ctx.fillText('(< will decrease the size of the board)',0,(textSize*7)*this.renderer.viewPortScaler);
-  		renderer.ctx.fillText('(> will increase the size of the board)',0,(textSize*8)*this.renderer.viewPortScaler);
-  		renderer.ctx.fillText('Size: ' + this.round(this.renderer.boardSizePercentage * 100, 2) + "%",0,(textSize*9)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.font =  (textSize*this.renderer.viewPortScaler) + "pt Calibri";
+  		this.renderer.ctx.fillStyle = "white";
+  		this.renderer.ctx.fillText("Mystic Square",0,(textSize*1)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.font =  (20*this.renderer.viewPortScaler) + "pt Calibri";
+  		this.renderer.ctx.fillText("(Press space to reset)",0,(textSize*2)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.fillText("(+ will increase Square count)",0,(textSize*3)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.fillText("(- will decrease Square count)",0,(textSize*4)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.fillText("(q will check for win)",0,(textSize*5)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.fillText("(w will set up a wining board)",0,(textSize*6)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.fillText("(< will decrease the size of the board)",0,(textSize*7)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.fillText("(> will increase the size of the board)",0,(textSize*8)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.fillText("Size: " + this.round(this.renderer.boardSizePercentage * 100, 2) + "%",0,(textSize*9)*this.renderer.viewPortScaler);
   		
-  		renderer.ctx.fillText('Moves: ' + this.moves,0,(textSize*11)*this.renderer.viewPortScaler);
+  		this.renderer.ctx.fillText("Moves: " + this.moves,0,(textSize*11)*this.renderer.viewPortScaler);
   		
-  		renderer.ctx.restore();
+  		this.renderer.ctx.restore();
   	}
   	
   	update(){
@@ -164,7 +162,7 @@ class GameDriver {
   			  var mouseX = mouse.x - _this.renderer.horizontalOffset;
   			  var mouseY = mouse.y - _this.renderer.verticalOffset;
   			  _this.click(mouseX,mouseY);
-  		  }
+  		  };
   	  }
     }
     
@@ -173,7 +171,7 @@ class GameDriver {
   		  var _this = this;
   		  keyBinding.onkeydown = function(event){
   			  _this.onkeydown(event);
-  		  }
+  		  };
   	  }
     }
     
@@ -211,7 +209,7 @@ class GameDriver {
   			var tile = this.gameTiles["#" + i];
   			if(tile !== undefined && tile !== null){
   				if(tile.clicked(mouseX,mounseY, this.renderer)){
-  					this.debug('tile#' + i + " was clicked.");
+  					this.debug("tile#" + i + " was clicked.");
   					this.debug(tile.getGameY(), tile.getGameX());
   					
   					var move = false;
