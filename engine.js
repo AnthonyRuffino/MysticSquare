@@ -10,6 +10,42 @@ PROFESSING.driver.log = window.console.log;
 PROFESSING.driver.alert = (txt) => { alert.call(window, txt); };
 
 PROFESSING.init = function init(){
+  
+  class Driver {
+    constructor({renderer, controlsBinding, log, alert, isDebug}) {
+      this.renderer = renderer;
+      this.log = log;
+      this.alert = alert;
+      this.textSize = null;
+      this.isDebug = isDebug;
+      this.bindClick(controlsBinding);
+      this.bindKeys(controlsBinding);
+      this.textSizeBase = 35;
+    }
+    
+    //BEGIN CONTROLS
+    bindClick(clickBinding){
+      if(clickBinding !== undefined && clickBinding !== null){
+        var _this = this;
+        clickBinding.onmousedown = function(mouse){
+          var mouseX = mouse.x - _this.renderer.horizontalOffset;
+          var mouseY = mouse.y - _this.renderer.verticalOffset;
+          _this.click(mouseX,mouseY);
+        };
+      }
+    }
+
+    bindKeys(keyBinding){
+      if(keyBinding !== undefined && keyBinding !== null){
+        var _this = this;
+        keyBinding.onkeydown = function(event){
+          _this.onkeydown(event);
+        };
+      }
+    }
+    //END CONTROLS
+  }
+  
   class Renderer {
     constructor({window, document, boardSizePercentage, targetElementName}) {
       this.window = window;
@@ -231,8 +267,10 @@ PROFESSING.init = function init(){
   
   this.renderer = new Renderer(PROFESSING).init();
   this.driver.renderer = PROFESSING.renderer;
+  this.driver = new Driver(PROFESSING.driver);
   this.gameEngine = new GameEngine(PROFESSING);
   this.gameEngine.start();
+ 
 }
   
 PROFESSING.init();
