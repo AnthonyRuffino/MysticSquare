@@ -11,6 +11,19 @@ PROFESSING.driver.click = function(){
   barsAnswer = calcVolume(null, {count: 12, min: 1, max: 8});
 }
 
+var cnt = 12;
+PROFESSING.driver.onkeydown = function(key){
+  if(event.keyCode === 32){	//space bar
+
+  }else if(event.keyCode === 107 || event.keyCode === 187){	//+
+    cnt++;
+  }else if(event.keyCode === 109 || event.keyCode === 189){	//-
+    cnt--;
+  }
+  
+  barsAnswer = calcVolume(null, {count: cnt, min: 1, max: 8});
+}
+
 PROFESSING.driver.render = function(){
 
   		this.renderer.ctx.save();
