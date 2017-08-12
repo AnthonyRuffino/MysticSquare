@@ -261,7 +261,8 @@ PROFESSING.init = function init(){
 
     frame() {
       this.renderer.ctx.clearRect(0,0,this.renderer.width,this.renderer.height);
-      this.renderer.drawRectangle(true, 0, 0, this.renderer.width, this.renderer.height, "black");
+      var color = this.renderer.backgroundColor ? this.renderer.backgroundColor : "black";
+      this.renderer.drawRectangle(true, 0, 0, this.renderer.width, this.renderer.height, color);
       this.update();
       this.render();
 
