@@ -9,6 +9,13 @@ PROFESSING.driver.controlsBinding = document;
 PROFESSING.driver.log = window.console.log;
 PROFESSING.driver.alert = (txt) => { alert.call(window, txt); };
 
+PROFESSING.driver.click = function(){
+}
+
+PROFESSING.driver.onkeydown = function(){
+}
+
+
 PROFESSING.init = function init(){
   
   class Driver {
