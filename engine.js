@@ -9,12 +9,6 @@ PROFESSING.driver.controlsBinding = document;
 PROFESSING.driver.log = window.console.log;
 PROFESSING.driver.alert = (txt) => { alert.call(window, txt); };
 
-PROFESSING.driver.click = function(){
-}
-
-PROFESSING.driver.onkeydown = function(){
-}
-
 
 PROFESSING.init = function init(){
   
@@ -37,7 +31,9 @@ PROFESSING.init = function init(){
         clickBinding.onmousedown = function(mouse){
           var mouseX = mouse.x - _this.renderer.horizontalOffset;
           var mouseY = mouse.y - _this.renderer.verticalOffset;
-          _this.click(mouseX,mouseY);
+          if( _this.click){
+            _this.click(mouseX,mouseY);
+          }
         };
       }
     }
@@ -46,7 +42,9 @@ PROFESSING.init = function init(){
       if(keyBinding !== undefined && keyBinding !== null){
         var _this = this;
         keyBinding.onkeydown = function(event){
-          _this.onkeydown(event);
+          if(_this.onkeydown){
+            _this.onkeydown(event);
+          }
         };
       }
     }
