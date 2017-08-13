@@ -1,7 +1,7 @@
 var PROFESSING = {};
 PROFESSING.window = window;
 PROFESSING.document = document;
-PROFESSING.BOARD_SIZE_PERCENTAGE = 0.5;
+PROFESSING.boardSizePercentage = 0.5;
 PROFESSING.DEBUG = true;
 
 PROFESSING.driver = {};
