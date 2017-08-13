@@ -205,6 +205,7 @@ class GameDriver {
   	}
   	
   	click(mouseX,mounseY){
+		alert('click: ' + mouseX + ',' + mouseY);
   		for(var i = 1; i <= this.numberOfSlots; i++){
   			var tile = this.gameTiles["#" + i];
   			if(tile !== undefined && tile !== null){
