@@ -205,7 +205,11 @@ class GameDriver {
   	}
   	
   	click(mouseX,mouseY){
-		alert('click: ' + mouseX + ',' + mouseY);
+		if(mouseY <= 30){
+			this.textSizeBase++;
+  			this.renderer.boardSizePercentage += .02;
+  			this.updateTileSizes();
+		}
   		for(var i = 1; i <= this.numberOfSlots; i++){
   			var tile = this.gameTiles["#" + i];
   			if(tile !== undefined && tile !== null){
