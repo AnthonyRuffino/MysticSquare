@@ -204,12 +204,12 @@ class GameDriver {
   		}
   	}
   	
-  	click(mouseX,mounseY){
+  	click(mouseX,mouseY){
 		alert('click: ' + mouseX + ',' + mouseY);
   		for(var i = 1; i <= this.numberOfSlots; i++){
   			var tile = this.gameTiles["#" + i];
   			if(tile !== undefined && tile !== null){
-  				if(tile.clicked(mouseX,mounseY, this.renderer)){
+  				if(tile.clicked(mouseX,mouseY, this.renderer)){
   					this.debug("tile#" + i + " was clicked.");
   					this.debug(tile.getGameY(), tile.getGameX());
   					
